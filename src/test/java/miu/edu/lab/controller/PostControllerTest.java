@@ -15,26 +15,30 @@ import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(PostController.class)
 public class PostControllerTest {
 
-  @Autowired private MockMvc mockMvc;
+  @Autowired 
+  private MockMvc mockMvc;
 
-  @MockBean private PostService postService;
+  @MockitoBean
+  private PostService postService;
 
-  @MockBean private ModelMapper modelMapper;
+  @MockitoBean 
+  private ModelMapper modelMapper;
 
-  @Autowired private ObjectMapper objectMapper;
+  @Autowired 
+  private ObjectMapper objectMapper;
 
   private Post post;
   private PostDto postDto;
 
   @BeforeEach
   void setUp() {
-    post = new Post(1L, "Sample Title", "Sample Content", "Author Name");
+//    post = new Post(1L, "Sample Title", "Sample Content", "Author Name");
     postDto = new PostDto(1L, "Sample Title", "Sample Content", "Author Name");
   }
 

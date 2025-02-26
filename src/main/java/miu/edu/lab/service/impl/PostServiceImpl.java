@@ -1,6 +1,5 @@
 package miu.edu.lab.service.impl;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import miu.edu.lab.model.Post;
 import miu.edu.lab.repo.PostRepo;
@@ -13,25 +12,23 @@ public class PostServiceImpl implements PostService {
   private final PostRepo postRepo;
   
   @Override
-  public List<Post> getAll() {
-    return postRepo.getAll();
+  public Iterable<Post> getAll() {
+    return postRepo.findAll();
   }
 
   @Override
   public Post findById(Long id) {
-    return postRepo.findById(id);
+    return postRepo.findById(id).orElse(null);
   }
 
   @Override
   public void create(Post post) {
-    postRepo.create(post);
+    postRepo.save(post);
 
   }
 
   @Override
-  public boolean delete(Long id) {
-    if (postRepo.findById(id) == null) return false;
-    postRepo.delete(id);
-    return true;
+  public void delete(Long id) {
+    postRepo.deleteById(id);
   }
 }

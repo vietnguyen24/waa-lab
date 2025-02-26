@@ -1,11 +1,7 @@
 package miu.edu.lab.repo;
 
-import java.util.List;
 import miu.edu.lab.model.Post;
+import org.springframework.data.repository.CrudRepository;
 
-public interface PostRepo {
-  List<Post> getAll();
-  Post findById(Long id);
-  void create(Post post);
-  void delete(Long id);
+public interface PostRepo extends CrudRepository<Post, Long> {
 }

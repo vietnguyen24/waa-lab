@@ -1,6 +1,5 @@
 package miu.edu.lab.controller;
 
-import jakarta.websocket.server.PathParam;
 import java.lang.reflect.Type;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,7 @@ public class PostController {
   
   @GetMapping
   public List<PostDto> getAll() {
-    List<Post> posts = postService.getAll();
+    Iterable<Post> posts = postService.getAll();
     Type listType = new TypeToken<List<PostDto>>() {}.getType();
     return modelMapper.map(posts, listType);
   }
@@ -49,8 +48,7 @@ public class PostController {
   
   @DeleteMapping("/{id}")
   public ResponseEntity delete(@PathVariable Long id) {
-    if ( !postService.delete(id) )
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    postService.delete(id);
     return ResponseEntity.noContent().build();
   }
 }
