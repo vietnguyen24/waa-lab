@@ -3,8 +3,10 @@ package miu.edu.lab.controller;
 import java.lang.reflect.Type;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import miu.edu.lab.dto.PostDto;
+import miu.edu.lab.dto.InputPostDto;
+import miu.edu.lab.dto.OutPutPostDto;
 import miu.edu.lab.model.Post;
+import miu.edu.lab.model.User;
 import miu.edu.lab.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -27,28 +29,33 @@ public class PostController {
   private final ModelMapper modelMapper;
   
   @GetMapping
-  public List<PostDto> getAll() {
+  public List<OutPutPostDto> getAll() {
     Iterable<Post> posts = postService.getAll();
-    Type listType = new TypeToken<List<PostDto>>() {}.getType();
+    Type listType = new TypeToken<List<OutPutPostDto>>() {}.getType();
     return modelMapper.map(posts, listType);
   }
   
   @GetMapping("/{id}")
-  public ResponseEntity<PostDto> findById(@PathVariable Long id) {
+  public ResponseEntity<OutPutPostDto> findById(@PathVariable Long id) {
     Post post = postService.findById(id);
-    if (post != null) return ResponseEntity.ok(modelMapper.map(post, PostDto.class));
+    if (post != null) return ResponseEntity.ok(OutPutPostDto.map(post));
     else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
   
   @PostMapping(consumes = "application/json")
   @ResponseStatus(HttpStatus.CREATED)
-  public void create(@RequestBody Post post) {
-    postService.create(post);
+  public OutPutPostDto create(@RequestBody InputPostDto post) {
+    return OutPutPostDto.map(postService.create(post));
   }
   
   @DeleteMapping("/{id}")
   public ResponseEntity delete(@PathVariable Long id) {
     postService.delete(id);
     return ResponseEntity.noContent().build();
+  }
+  
+  @GetMapping("/filter/{title}")
+  public ResponseEntity<List<User>> filter(@PathVariable String title) {
+    return ResponseEntity.ok(postService.findUserByPostTitle(title));
   }
 }

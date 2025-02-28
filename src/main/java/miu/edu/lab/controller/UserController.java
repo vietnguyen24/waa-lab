@@ -3,8 +3,10 @@ package miu.edu.lab.controller;
 import java.lang.reflect.Type;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import miu.edu.lab.dto.OutPutCommentDto;
 import miu.edu.lab.dto.UserDto;
 import miu.edu.lab.model.User;
+import miu.edu.lab.service.CommentService;
 import miu.edu.lab.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
   private final UserService userService;
   private final ModelMapper modelMapper;
+  private final CommentService commentService;
   
   @GetMapping
   public List<UserDto> getAll() {
@@ -50,5 +53,10 @@ public class UserController {
   public ResponseEntity delete(@PathVariable Long id) {
     userService.delete(id);
     return ResponseEntity.noContent().build();
+  }
+
+  @GetMapping("/{userId}/posts/{postId}/comments/{commentId}")
+  public ResponseEntity<OutPutCommentDto> findCommentByUserIdAndPostId(@PathVariable Long userId, @PathVariable Long postId, @PathVariable Long commentId) {
+    return ResponseEntity.ok(commentService.findCommentByUserIdAndPostId(userId, postId, commentId));
   }
 }

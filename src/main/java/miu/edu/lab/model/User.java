@@ -33,4 +33,8 @@ public class User {
   @OneToMany
   @JoinColumn(name = "user_id")
   private List<Post> posts = new ArrayList<>();
+  
+  public User(String name) {
+    this.name = name;
+  }
 }
