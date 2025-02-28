@@ -1,6 +1,7 @@
 package miu.edu.lab.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import miu.edu.lab.aspect.annotation.ExecutedTime;
 import miu.edu.lab.model.User;
 import miu.edu.lab.repo.UserRepo;
 import miu.edu.lab.service.UserService;
@@ -17,6 +18,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  @ExecutedTime
   public User findById(Long id) {
     return userRepo.findById(id).orElse(null);
   }
